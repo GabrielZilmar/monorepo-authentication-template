@@ -1,10 +1,10 @@
-import type { Link } from '@repo/api';
-import { Button } from '@repo/ui/button';
-import Image, { type ImageProps } from 'next/image';
+import type { User } from "@repo/api";
+import { Button } from "@repo/ui/button";
+import Image, { type ImageProps } from "next/image";
 
-import styles from './page.module.css';
+import styles from "./page.module.css";
 
-type Props = Omit<ImageProps, 'src'> & {
+type Props = Omit<ImageProps, "src"> & {
   srcLight: string;
   srcDark: string;
 };
@@ -20,25 +20,25 @@ const ThemeImage = (props: Props) => {
   );
 };
 
-async function getLinks(): Promise<Link[]> {
+async function getUsers(): Promise<User[]> {
   try {
-    const res = await fetch('http://localhost:3000/links', {
-      cache: 'no-store',
+    const res = await fetch("http://localhost:3000/users", {
+      cache: "no-store",
     });
 
     if (!res.ok) {
-      throw new Error('Failed to fetch links');
+      throw new Error("Failed to fetch users");
     }
 
     return res.json();
   } catch (error) {
-    console.error('Error fetching links:', error);
+    console.error("Error fetching users:", error);
     return [];
   }
 }
 
 export default async function Home() {
-  const links = await getLinks();
+  const users = await getUsers();
 
   return (
     <div className={styles.page}>
@@ -89,24 +89,17 @@ export default async function Home() {
           Open alert
         </Button>
 
-        {links.length > 0 ? (
+        {users.length > 0 ? (
           <div className={styles.ctas}>
-            {links.map((link) => (
-              <a
-                key={link.id}
-                href={link.url}
-                target="_blank"
-                rel="noopener noreferrer"
-                title={link.description}
-                className={styles.secondary}
-              >
-                {link.title}
-              </a>
+            {users.map((user) => (
+              <h4 key={user.id} className={styles.secondary}>
+                {user.email}
+              </h4>
             ))}
           </div>
         ) : (
-          <div style={{ color: '#666' }}>
-            No links available. Make sure the NestJS API is running on port
+          <div style={{ color: "#666" }}>
+            No users available. Make sure the NestJS API is running on port
             3000.
           </div>
         )}
