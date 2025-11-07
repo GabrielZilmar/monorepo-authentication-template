@@ -1,8 +1,8 @@
-export { RegisterDto } from './auth/dto/register.dto';
+export { RegisterUserDTO } from './auth/dto/register.dto';
 export { LoginDto } from './auth/dto/login.dto';
 export { AuthResponseDto } from './auth/dto/auth-response.dto';
 
-export { User } from './users/entities/user.entity';
+export { UserEntity } from './users/entities/user.entity';
 export { UserMapper } from './users/mappers/user.mapper';
 export { UserDTO } from './users/dto/user.dto';
 export { CreateUserDto } from './users/dto/create-user.dto';

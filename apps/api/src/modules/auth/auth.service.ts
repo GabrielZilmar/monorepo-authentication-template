@@ -1,7 +1,7 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 
-import { RegisterDto, LoginDto, AuthResponseDto } from '@repo/api';
+import { LoginDto, AuthResponseDto, RegisterUserDTO } from '@repo/api';
 import { UsersService } from '~/modules/users/users.service';
 import { User } from '~/modules/users/entities/user.entity';
 import PasswordUtils from '~/shared/password.util';
@@ -13,7 +13,7 @@ export class AuthService {
     private readonly usersService: UsersService,
   ) {}
 
-  async register(registerDto: RegisterDto): Promise<AuthResponseDto> {
+  async register(registerDto: RegisterUserDTO): Promise<AuthResponseDto> {
     const { email, password, username, passwordConfirm } = registerDto;
 
     // Check if user already exists

@@ -6,7 +6,6 @@ import { AuthService } from '~/modules/auth/auth.service';
 import { JwtStrategy } from '~/modules/auth/strategies/jwt.strategy';
 import { LocalStrategy } from '~/modules/auth/strategies/local.strategy';
 import { UsersModule } from '~/modules/users/users.module';
-import { UsersService } from '~/modules/users/users.service';
 import Env from '~/shared/env';
 
 @Module({

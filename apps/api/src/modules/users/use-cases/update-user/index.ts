@@ -2,14 +2,14 @@ import { ForbiddenException, Injectable } from '@nestjs/common';
 import {
   UpdateUserParamsDTO,
   UpdateUserBodyDTO,
-  User,
+  UserDTO,
   UserMapper,
 } from '@repo/api';
 import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import { UseCase } from '~/shared/core/use-case';
 
 type UpdateUserParams = UpdateUserParamsDTO & UpdateUserBodyDTO; // & { currentUser: User };
-type UpdateUserResult = User;
+type UpdateUserResult = UserDTO;
 
 @Injectable()
 export default class UpdateUser

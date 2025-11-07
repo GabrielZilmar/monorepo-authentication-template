@@ -14,7 +14,7 @@ import {
   FindUserByIdParamsDTO,
   UpdateUserParamsDTO,
   UpdateUserBodyDTO,
-  User,
+  UserDTO,
   DeleteUserParamsDTO,
 } from '@repo/api';
 import { JwtAuthGuard } from '~/modules/auth/guards/jwt-auth.guard';
@@ -41,12 +41,12 @@ export class UsersController {
   }
 
   @Get(':id')
-  findOne(@Param() params: FindUserByIdParamsDTO): Promise<User> {
+  findOne(@Param() params: FindUserByIdParamsDTO): Promise<UserDTO> {
     return this.findUserById.execute(params);
   }
 
   @Get()
-  findAll(): Promise<User[]> {
+  findAll(): Promise<UserDTO[]> {
     return this.listUsers.execute();
   }
 
@@ -54,7 +54,7 @@ export class UsersController {
   update(
     @Param() { id }: UpdateUserParamsDTO,
     @Body() body: UpdateUserBodyDTO,
-  ): Promise<User> {
+  ): Promise<UserDTO> {
     // TODO: Add currentUser
     return this.updateUser.execute({ id, ...body });
   }

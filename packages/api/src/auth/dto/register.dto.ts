@@ -3,10 +3,10 @@ import {
   IsNotEmpty,
   IsString,
   IsStrongPassword,
-  ValidateIf,
 } from 'class-validator';
+import { Match } from '../../decorators/match.decorator';
 
-export class RegisterDto {
+export class RegisterUserDTO {
   @IsEmail()
   email: string;
 
@@ -20,7 +20,7 @@ export class RegisterDto {
   password: string;
 
   @IsString()
-  @ValidateIf((o) => o.password !== o.repeatPassword)
+  @Match('password', { message: 'Passwords do not match' })
   passwordConfirm: string;
 
   @IsString()

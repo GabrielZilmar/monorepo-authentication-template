@@ -1,7 +1,7 @@
 import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { RegisterDto, LoginDto, AuthResponseDto } from '@repo/api';
+import { RegisterUserDTO, LoginDto, AuthResponseDto } from '@repo/api';
 import { AuthService } from '~/modules/auth/auth.service';
 import { LocalAuthGuard } from '~/modules/auth/guards/local-auth.guard';
 
@@ -10,7 +10,9 @@ export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
   @Post('register')
-  async register(@Body() registerDto: RegisterDto): Promise<AuthResponseDto> {
+  async register(
+    @Body() registerDto: RegisterUserDTO,
+  ): Promise<AuthResponseDto> {
     return this.authService.register(registerDto);
   }
 
