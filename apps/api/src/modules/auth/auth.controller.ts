@@ -1,16 +1,33 @@
-import { Controller, Post, Body, UseGuards, Request } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  UseGuards,
+  Request,
+  Get,
+  Req,
+} from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
-import { RegisterUserDTO, LoginDto, AuthResponseDTO, UserDTO } from '@repo/api';
-import { AuthService } from '~/modules/auth/auth.service';
+import {
+  RegisterUserDTO,
+  LoginDTO,
+  AuthResponseDTO,
+  UserDTO,
+  LoginResponseDTO,
+} from '@repo/api';
 import { LocalAuthGuard } from '~/modules/auth/guards/local-auth.guard';
+import GetMe from '~/modules/auth/use-cases/get-me';
+import Login from '~/modules/auth/use-cases/login';
 import RegisterUser from '~/modules/auth/use-cases/register';
+import { RequestWithUser } from '~/types/request-with-user';
 
 @Controller('api/auth')
 export class AuthController {
   constructor(
-    private readonly authService: AuthService,
     private readonly registerUser: RegisterUser,
+    private readonly loginUseCase: Login,
+    private readonly getMeUseCase: GetMe,
   ) {}
 
   @Post('register')
@@ -22,13 +39,13 @@ export class AuthController {
 
   @UseGuards(LocalAuthGuard)
   @Post('login')
-  async login(@Body() loginDto: LoginDto): Promise<AuthResponseDTO> {
-    return this.authService.login(loginDto);
+  async login(@Body() loginDto: LoginDTO): Promise<LoginResponseDTO> {
+    return this.loginUseCase.execute(loginDto);
   }
 
   @UseGuards(AuthGuard('jwt'))
-  @Post('profile')
-  getProfile(@Request() req) {
-    return req.user;
+  @Get('me')
+  getMe(@Req() req: RequestWithUser): Promise<UserDTO> {
+    return this.getMeUseCase.execute(req.user);
   }
 }

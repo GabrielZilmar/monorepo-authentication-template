@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { PassportModule } from '@nestjs/passport';
 import { AuthController } from '~/modules/auth/auth.controller';
-import { AuthService } from '~/modules/auth/auth.service';
 import { JwtStrategy } from '~/modules/auth/strategies/jwt.strategy';
 import { LocalStrategy } from '~/modules/auth/strategies/local.strategy';
 import authUseCasesProviders from '~/modules/auth/use-cases/provider';
@@ -19,11 +18,6 @@ import Env from '~/shared/env';
     UsersModule,
   ],
   controllers: [AuthController],
-  providers: [
-    AuthService,
-    LocalStrategy,
-    JwtStrategy,
-    ...authUseCasesProviders,
-  ],
+  providers: [LocalStrategy, JwtStrategy, ...authUseCasesProviders],
 })
 export class AuthModule {}

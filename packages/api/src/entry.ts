@@ -1,6 +1,7 @@
 export { RegisterUserDTO } from './auth/dto/register.dto';
-export { LoginDto } from './auth/dto/login.dto';
+export { LoginDTO } from './auth/dto/login.dto';
 export { AuthResponseDTO } from './auth/dto/auth-response.dto';
+export { LoginResponseDTO } from './auth/dto/login-response.dto';
 
 export { UserEntity } from './users/entities/user.entity';
 export { UserMapper } from './users/mappers/user.mapper';
