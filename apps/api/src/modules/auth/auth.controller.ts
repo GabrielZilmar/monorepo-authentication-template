@@ -1,12 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  UseGuards,
-  Request,
-  Get,
-  Req,
-} from '@nestjs/common';
+import { Controller, Post, Body, UseGuards, Get, Req } from '@nestjs/common';
 import { AuthGuard } from '@nestjs/passport';
 
 import {
@@ -17,7 +9,6 @@ import {
   LoginResponseDTO,
 } from '@repo/api';
 import { LocalAuthGuard } from '~/modules/auth/guards/local-auth.guard';
-import GetMe from '~/modules/auth/use-cases/get-me';
 import Login from '~/modules/auth/use-cases/login';
 import RegisterUser from '~/modules/auth/use-cases/register';
 import { RequestWithUser } from '~/types/request-with-user';
@@ -27,7 +18,6 @@ export class AuthController {
   constructor(
     private readonly registerUser: RegisterUser,
     private readonly loginUseCase: Login,
-    private readonly getMeUseCase: GetMe,
   ) {}
 
   @Post('register')
@@ -45,7 +35,7 @@ export class AuthController {
 
   @UseGuards(AuthGuard('jwt'))
   @Get('me')
-  getMe(@Req() req: RequestWithUser): Promise<UserDTO> {
-    return this.getMeUseCase.execute(req.user);
+  getMe(@Req() req: RequestWithUser) {
+    return req.user;
   }
 }

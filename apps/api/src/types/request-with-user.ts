@@ -1,5 +1,5 @@
-import { UserRequest } from '~/types/user-request.type';
+import { UserDTO } from '@repo/api';
 
 export type RequestWithUser = Request & {
-  user: UserRequest;
+  user: UserDTO;
 };

@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
+import { UserDTO, UserMapper } from '@repo/api';
 import { ExtractJwt, Strategy } from 'passport-jwt';
+import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import Env from '~/shared/env';
-import { UserRequest } from '~/types/user-request.type';
 
 type JwtStrategyValidateParams = {
   sub: string;
@@ -11,7 +12,7 @@ type JwtStrategyValidateParams = {
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
-  constructor() {
+  constructor(private readonly userRepository: UserRepository) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       ignoreExpiration: false,
@@ -19,7 +20,11 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     });
   }
 
-  validate(payload: JwtStrategyValidateParams): UserRequest {
-    return { userId: payload.sub, email: payload.email };
+  async validate({ sub }: JwtStrategyValidateParams): Promise<UserDTO> {
+    const user = await this.userRepository.findOneById(sub);
+    if (!user) {
+      throw new NotFoundException('User not found');
+    }
+    return UserMapper.toDto(user);
   }
 }

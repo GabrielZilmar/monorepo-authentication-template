@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Req,
   UseGuards,
 } from '@nestjs/common';
 
@@ -20,8 +21,9 @@ import DeleteUser from '~/modules/users/use-cases/delete-user';
 import ListUsers from '~/modules/users/use-cases/find-all';
 import FindUserById from '~/modules/users/use-cases/find-by-id';
 import UpdateUser from '~/modules/users/use-cases/update-user';
+import { RequestWithUser } from '~/types/request-with-user';
 
-// @UseGuards(JwtAuthGuard)
+@UseGuards(JwtAuthGuard)
 @Controller('api/users')
 export class UsersController {
   constructor(
@@ -43,15 +45,18 @@ export class UsersController {
 
   @Patch(':id')
   update(
+    @Req() req: RequestWithUser,
     @Param() { id }: UpdateUserParamsDTO,
     @Body() body: UpdateUserBodyDTO,
   ): Promise<UserDTO> {
-    // TODO: Add currentUser
-    return this.updateUser.execute({ id, ...body });
+    return this.updateUser.execute({ id, currentUser: req.user, ...body });
   }
 
   @Delete(':id')
-  remove(@Param() params: DeleteUserParamsDTO): Promise<boolean> {
-    return this.deleteUser.execute(params);
+  remove(
+    @Req() req: RequestWithUser,
+    @Param() { id }: DeleteUserParamsDTO,
+  ): Promise<boolean> {
+    return this.deleteUser.execute({ id, currentUser: req.user });
   }
 }
