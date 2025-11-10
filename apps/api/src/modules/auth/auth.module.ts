@@ -19,5 +19,6 @@ import Env from '~/shared/env';
   ],
   controllers: [AuthController],
   providers: [LocalStrategy, JwtStrategy, ...authUseCasesProviders],
+  exports: [ ...authUseCasesProviders],
 })
 export class AuthModule {}
