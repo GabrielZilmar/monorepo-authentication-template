@@ -1,9 +1,9 @@
 import { Injectable } from '@nestjs/common';
-import { User, UserMapper } from '@repo/api';
+import { UserDTO, UserMapper } from '@repo/api';
 import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import { UseCase } from '~/shared/core/use-case';
 
-type ListUsersResult = User[];
+type ListUsersResult = UserDTO[];
 
 // TODO: Add pagination and search criteria
 @Injectable()

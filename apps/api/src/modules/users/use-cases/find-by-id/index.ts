@@ -1,10 +1,10 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { FindUserByIdParamsDTO, User, UserMapper } from '@repo/api';
+import { FindUserByIdParamsDTO, UserDTO, UserMapper } from '@repo/api';
 import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import { UseCase } from '~/shared/core/use-case';
 
 type FindUserByIdParams = FindUserByIdParamsDTO;
-type FindUserByIdResult = User;
+type FindUserByIdResult = UserDTO;
 
 @Injectable()
 export default class FindUserById

@@ -1,14 +1,13 @@
 import { Global, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { AppController } from '~/app.controller';
-import { AppService } from '~/app.service';
+import { AuthController } from '~/modules/auth/auth.controller';
 import { AuthModule } from '~/modules/auth/auth.module';
 import { DatabaseModule } from '~/modules/database/database.module';
 import { UsersController } from '~/modules/users/users.controller';
 import { UsersModule } from '~/modules/users/users.module';
 import repositoriesProviders from '~/services/database/typeorm/repositories/providers';
 
-const allProviders = [...repositoriesProviders, AppService];
+const allProviders = [...repositoriesProviders];
 
 @Global()
 @Module({
@@ -20,7 +19,7 @@ const allProviders = [...repositoriesProviders, AppService];
     AuthModule,
     UsersModule,
   ],
-  controllers: [AppController, UsersController],
+  controllers: [UsersController, AuthController],
   providers: [...allProviders],
   exports: [...allProviders],
 })

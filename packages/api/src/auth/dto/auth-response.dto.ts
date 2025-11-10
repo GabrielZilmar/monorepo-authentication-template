@@ -1,8 +1,6 @@
-export class AuthResponseDto {
-  access_token: string;
-  user: {
-    id: string;
-    email: string;
-    username: string;
-  };
+import { UserDTO } from 'entry';
+
+export class AuthResponseDTO {
+  user: UserDTO;
+  accessToken: string;
 }
