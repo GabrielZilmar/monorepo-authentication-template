@@ -1,4 +1,4 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { ForbiddenException, Injectable } from '@nestjs/common';
 import { PassportStrategy } from '@nestjs/passport';
 import { UserDTO, UserMapper } from '@repo/api';
 import { ExtractJwt, Strategy } from 'passport-jwt';
@@ -23,7 +23,7 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   async validate({ sub }: JwtStrategyValidateParams): Promise<UserDTO> {
     const user = await this.userRepository.findOneById(sub);
     if (!user) {
-      throw new NotFoundException('User not found');
+      throw new ForbiddenException('User not found');
     }
     return UserMapper.toDto(user);
   }
