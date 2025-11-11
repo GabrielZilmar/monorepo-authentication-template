@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   Patch,
+  Query,
   Req,
   UseGuards,
 } from '@nestjs/common';
@@ -16,11 +17,12 @@ import {
   UserDTO,
   DeleteUserParamsDTO,
   ToggleAdminParamsDTO,
+  ListUsersQueryDTO,
 } from '@repo/api';
 import { AdminGuard } from '~/modules/auth/guards/admin.guard';
 import { JwtAuthGuard } from '~/modules/auth/guards/jwt-auth.guard';
 import DeleteUser from '~/modules/users/use-cases/delete-user';
-import ListUsers from '~/modules/users/use-cases/find-all';
+import ListUsers, { ListUsersResult } from '~/modules/users/use-cases/find-all';
 import FindUserById from '~/modules/users/use-cases/find-by-id';
 import ToggleAdmin from '~/modules/users/use-cases/toggle-admin';
 import UpdateUser from '~/modules/users/use-cases/update-user';
@@ -45,8 +47,8 @@ export class UsersController {
 
   @Get()
   @UseGuards(AdminGuard)
-  findAll(): Promise<UserDTO[]> {
-    return this.listUsers.execute();
+  findAll(@Query() query: ListUsersQueryDTO): Promise<ListUsersResult> {
+    return this.listUsers.execute(query);
   }
 
   @Patch(':id')
