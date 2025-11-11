@@ -1,5 +1,6 @@
 import { join } from 'path';
 import { DataSource, DataSourceOptions } from 'typeorm';
+import { SeederOptions } from 'typeorm-extension';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import databaseConfig from '~/services/database/typeorm/config/database';
 
@@ -18,6 +19,7 @@ export const dataSourceOptions = {
   entities: [join(__dirname, '../../../../modules/**/*.entity.{ts,js}')],
   migrations: [join(__dirname, '../migrations/*{.ts,.js}')],
   subscribers: [join(__dirname, '../subscribers/*{.ts,.js}')],
-} as DataSourceOptions;
+  seeds: [join(__dirname, '../seeders/*{.ts,.js}')],
+} as DataSourceOptions & SeederOptions;
 
 export const AppDataSource = new DataSource(dataSourceOptions);

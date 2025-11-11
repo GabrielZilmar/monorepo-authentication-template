@@ -1,5 +1,6 @@
 import { Global, Module } from '@nestjs/common';
 import { DataSource } from 'typeorm';
+import { runSeeders } from 'typeorm-extension';
 import { AppDataSource } from '~/services/database/typeorm/config/data-source';
 
 @Global()
@@ -10,6 +11,8 @@ import { AppDataSource } from '~/services/database/typeorm/config/data-source';
       provide: DataSource,
       useFactory: async () => {
         await AppDataSource.initialize();
+        await runSeeders(AppDataSource);
+
         return AppDataSource;
       },
     },
