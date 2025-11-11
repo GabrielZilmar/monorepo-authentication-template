@@ -1,4 +1,5 @@
 import { HttpStatus } from '@nestjs/common';
+import { isUUID } from 'class-validator';
 import {
   DeepPartial,
   EntityManager,
@@ -225,6 +226,12 @@ export abstract class BaseRepository<T extends { id: string }>
     const search: FindOptionsWhere<T> = Object.entries(params).reduce(
       (acc, [key, value]) => {
         if (typeof value === 'string') {
+          if (isUUID(value)) {
+            return {
+              ...acc,
+              [key]: value,
+            };
+          }
           return {
             ...acc,
             [key]: ILike(`%${value}%`),
