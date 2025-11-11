@@ -7,6 +7,7 @@ export class UserMapper {
       user.id,
       user.email,
       user.username,
+      user.isAdmin,
       user.createdAt,
       user.updatedAt,
     );

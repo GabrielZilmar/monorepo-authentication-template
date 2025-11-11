@@ -10,3 +10,4 @@ export { UpdateUserParamsDTO } from './users/dto/update-user.dto';
 export { UpdateUserBodyDTO } from './users/dto/update-user.dto';
 export { FindUserByIdParamsDTO } from './users/dto/find-user-by-id.dto';
 export { DeleteUserParamsDTO } from './users/dto/delete-user.dto';
+export { ToggleAdminParamsDTO } from './users/dto/toggle-admin.dto';

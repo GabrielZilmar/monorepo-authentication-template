@@ -15,4 +15,10 @@ export default class UserRepository extends BaseRepository<User> {
       withDeleted,
     });
   }
+
+  async countAdmins(): Promise<number> {
+    return this.repository.count({
+      where: { isAdmin: true },
+    });
+  }
 }

@@ -24,8 +24,7 @@ export default class UpdateUser
     ...body
   }: UpdateUserParams): Promise<UpdateUserResult> {
     const isSameUser = currentUser.id === id;
-    // TODO: Or currentUser is admin
-    if (!isSameUser) {
+    if (!isSameUser && !currentUser.isAdmin) {
       throw new ForbiddenException(
         'You can only edit your own account information',
       );
