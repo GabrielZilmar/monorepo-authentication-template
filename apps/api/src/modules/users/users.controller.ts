@@ -38,6 +38,7 @@ export class UsersController {
   ) {}
 
   @Get(':id')
+  @UseGuards(AdminGuard)
   findOne(@Param() params: FindUserByIdParamsDTO): Promise<UserDTO> {
     return this.findUserById.execute(params);
   }
