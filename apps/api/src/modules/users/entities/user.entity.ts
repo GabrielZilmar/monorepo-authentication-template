@@ -22,6 +22,9 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   password: string;
 
+  @Column({ type: 'boolean', default: false })
+  isAdmin: boolean;
+
   @Column({ type: 'varchar', length: 255 })
   passwordSalt: string;
 
