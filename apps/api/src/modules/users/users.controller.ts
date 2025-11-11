@@ -17,6 +17,7 @@ import {
   DeleteUserParamsDTO,
   ToggleAdminParamsDTO,
 } from '@repo/api';
+import { AdminGuard } from '~/modules/auth/guards/admin.guard';
 import { JwtAuthGuard } from '~/modules/auth/guards/jwt-auth.guard';
 import DeleteUser from '~/modules/users/use-cases/delete-user';
 import ListUsers from '~/modules/users/use-cases/find-all';
@@ -42,6 +43,7 @@ export class UsersController {
   }
 
   @Get()
+  @UseGuards(AdminGuard)
   findAll(): Promise<UserDTO[]> {
     return this.listUsers.execute();
   }
@@ -64,6 +66,7 @@ export class UsersController {
   }
 
   @Patch(':id/toggle-admin')
+  @UseGuards(AdminGuard)
   toggleAdmin(
     @Req() req: RequestWithUser,
     @Param() { id }: ToggleAdminParamsDTO,

@@ -5,7 +5,6 @@ import {
   RegisterUserDTO,
   LoginDTO,
   AuthResponseDTO,
-  UserDTO,
   LoginResponseDTO,
 } from '@repo/api';
 import { LocalAuthGuard } from '~/modules/auth/guards/local-auth.guard';
