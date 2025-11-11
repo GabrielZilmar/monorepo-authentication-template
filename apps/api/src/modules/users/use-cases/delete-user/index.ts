@@ -17,12 +17,11 @@ export default class DeleteUser
     currentUser,
   }: DeleteUserParams): Promise<DeleteUserResult> {
     const isSameUser = currentUser.id === id;
-    if (!isSameUser) {
+    if (!isSameUser && !currentUser.isAdmin) {
       throw new ForbiddenException(
         'You can only edit your own account information',
       );
     }
-    // TODO: Or currentUser is admin
     return this.userRepository.delete(id);
   }
 }
