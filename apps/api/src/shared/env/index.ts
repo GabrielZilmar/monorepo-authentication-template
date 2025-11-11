@@ -31,6 +31,18 @@ export default class Env {
     return env;
   }
 
+  static get adminEmail(): string {
+    return this.getEnvOrThrow('ADMIN_EMAIL');
+  }
+
+  static get adminUsername(): string {
+    return this.getEnvOrThrow('ADMIN_USERNAME');
+  }
+
+  static get adminPassword(): string {
+    return this.getEnvOrThrow('ADMIN_PASSWORD');
+  }
+
   private static getEnvOrDefault(
     envName: string,
     defaultValue: string,
