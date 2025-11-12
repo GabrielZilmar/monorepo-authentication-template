@@ -1,17 +1,37 @@
 import { Injectable } from '@nestjs/common';
-import { UserDTO, UserMapper } from '@repo/api';
+import {
+  ListUsersQueryDTO,
+  PaginatedResultDTO,
+  UserDTO,
+  UserMapper,
+} from '@repo/api';
 import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import { UseCase } from '~/shared/core/use-case';
 
-type ListUsersResult = UserDTO[];
+type ListUsersParams = ListUsersQueryDTO;
+export type ListUsersResult = PaginatedResultDTO<UserDTO>;
 
-// TODO: Add pagination and search criteria
 @Injectable()
-export default class ListUsers implements UseCase<void, ListUsersResult> {
+export default class ListUsers
+  implements UseCase<ListUsersQueryDTO, ListUsersResult>
+{
   constructor(private readonly userRepository: UserRepository) {}
 
-  async execute(): Promise<ListUsersResult> {
-    const { items: users } = await this.userRepository.findAll();
-    return users.map(UserMapper.toDto);
+  async execute({
+    skip,
+    take,
+    ...query
+  }: ListUsersParams): Promise<ListUsersResult> {
+    const { items, count } = await this.userRepository.find({
+      where: {
+        ...this.userRepository.genericMountSearch(query),
+      },
+      skip,
+      take,
+    });
+    return {
+      items: items.map(UserMapper.toDto),
+      count,
+    };
   }
 }
