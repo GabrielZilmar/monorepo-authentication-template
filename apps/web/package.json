@@ -11,10 +11,13 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
+    "@hookform/resolvers": "^5.2.2",
     "@repo/ui": "workspace:*",
     "next": "^15.4.2",
     "react": "^19.1.0",
-    "react-dom": "^19.1.0"
+    "react-dom": "^19.1.0",
+    "react-hook-form": "^7.71.1",
+    "zod": "^4.3.5"
   },
   "devDependencies": {
     "@repo/api": "workspace:*",

@@ -1,26 +1,52 @@
 "use client";
 
 import { useState } from "react";
-import { Button, Input, Card, CardBody, CardHeader, Link } from "@repo/ui";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  Button,
+  Input,
+  Card,
+  CardBody,
+  CardHeader,
+  Link,
+  Form,
+} from "@repo/ui";
 import { EyeIcon, EyeSlashIcon } from "@repo/ui/icons";
+import z from "zod";
+
+const loginSchema = z.object({
+  email: z.email("Please enter a valid email address"),
+  password: z
+    .string()
+    .min(1, "Password is required")
+    .min(6, "Password must be at least 6 characters"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm: React.FC = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsLoading(true);
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
 
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      console.log("Login attempt:", { email, password });
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      // TODO: Implement authentication logic
+      console.log("Login attempt:", data);
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
       console.error("Login error:", error);
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -29,7 +55,7 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-background to-default-100 p-4">
+    <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-background to-default-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col gap-1 px-6 pt-6 pb-4">
           <h1 className="text-2xl font-bold">Welcome back</h1>
@@ -38,27 +64,32 @@ const LoginForm: React.FC = () => {
           </p>
         </CardHeader>
         <CardBody className="px-6 pb-6">
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <Form
+            onSubmit={handleSubmit(onSubmit)}
+            className="flex flex-col gap-4"
+          >
             <Input
               type="email"
               label="Email"
               placeholder="Enter your email"
-              value={email}
-              onValueChange={setEmail}
+              {...register("email")}
               isRequired
               variant="bordered"
               autoComplete="email"
+              isInvalid={!!errors.email}
+              errorMessage={errors.email?.message}
             />
-            
+
             <Input
               label="Password"
               placeholder="Enter your password"
-              value={password}
-              onValueChange={setPassword}
+              {...register("password")}
               isRequired
               variant="bordered"
               type={isPasswordVisible ? "text" : "password"}
               autoComplete="current-password"
+              isInvalid={!!errors.password}
+              errorMessage={errors.password?.message}
               endContent={
                 <button
                   className="focus:outline-none"
@@ -84,7 +115,7 @@ const LoginForm: React.FC = () => {
             <Button
               type="submit"
               color="primary"
-              isLoading={isLoading}
+              isLoading={isSubmitting}
               className="w-full"
             >
               Sign in
@@ -96,7 +127,7 @@ const LoginForm: React.FC = () => {
                 Sign up
               </Link>
             </div>
-          </form>
+          </Form>
         </CardBody>
       </Card>
     </div>
