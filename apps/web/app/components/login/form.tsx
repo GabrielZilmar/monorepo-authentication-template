@@ -14,6 +14,7 @@ import {
 } from "@repo/ui";
 import { EyeIcon, EyeSlashIcon } from "@repo/ui/icons";
 import z from "zod";
+import { useLogin } from "~/hooks";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -27,6 +28,7 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 const LoginForm: React.FC = () => {
   const [isPasswordVisible, setIsPasswordVisible] = useState(false);
+  const { loginMutation } = useLogin();
 
   const {
     register,
@@ -41,13 +43,7 @@ const LoginForm: React.FC = () => {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    try {
-      // TODO: Implement authentication logic
-      console.log("Login attempt:", data);
-      await new Promise((resolve) => setTimeout(resolve, 1000));
-    } catch (error) {
-      console.error("Login error:", error);
-    }
+    loginMutation(data);
   };
 
   const togglePasswordVisibility = () => {
@@ -58,7 +54,9 @@ const LoginForm: React.FC = () => {
     <div className="flex min-h-screen items-center justify-center bg-linear-to-br from-background to-default-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="flex flex-col gap-1 px-6 pt-6 pb-4">
-          <h1 className="text-2xl font-bold">Welcome back</h1>
+          <h1 className="text-2xl text-center font-bold">
+            Monorepo Authentication Template
+          </h1>
           <p className="text-sm text-default-500">
             Sign in to your account to continue
           </p>

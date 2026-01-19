@@ -15,7 +15,7 @@ const RootProvider = ({
 
   return (
     <HeroUIProvider navigate={router.push}>
-      <ToastProvider />
+      <ToastProvider placement="top-right" />
       <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
     </HeroUIProvider>
   );
