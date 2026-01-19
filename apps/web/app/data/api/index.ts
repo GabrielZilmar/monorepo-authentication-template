@@ -32,7 +32,7 @@ axiosInstance.interceptors.request.use(
   (config) => {
     const token = getCookie(COOKIES_NAMES.ACCESS_TOKEN) as string;
     if (token) {
-      config.headers.Authorization = token;
+      config.headers.Authorization = `Bearer ${token}`;
     }
 
     return config;

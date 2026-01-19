@@ -15,6 +15,7 @@ import {
 import { EyeIcon, EyeSlashIcon } from "@repo/ui/icons";
 import z from "zod";
 import { useLogin } from "~/hooks";
+import { ALL_ROUTES } from "~/routes";
 
 const loginSchema = z.object({
   email: z.email("Please enter a valid email address"),
@@ -121,7 +122,11 @@ const LoginForm: React.FC = () => {
 
             <div className="text-center text-sm">
               <span className="text-default-500">Don't have an account? </span>
-              <Link href="#" size="sm" className="text-primary">
+              <Link
+                href={ALL_ROUTES.register}
+                size="sm"
+                className="text-primary"
+              >
                 Sign up
               </Link>
             </div>
