@@ -17,7 +17,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Sign in · Monorepo Auth Starter",
+  title: "Monorepo Auth Starter",
   description:
     "Authenticate into the monorepo starter using our secure, modern login experience.",
 };

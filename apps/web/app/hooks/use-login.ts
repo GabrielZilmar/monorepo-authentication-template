@@ -5,12 +5,15 @@ import { setCookie } from "cookies-next";
 import { useRouter } from "next/navigation";
 import { COOKIES_NAMES } from "~/constants/cookies";
 import { HttpStatus } from "~/constants/http-status";
+import { getMe } from "~/data/get-me";
 import login, { LoginPayload, LoginResult } from "~/data/login";
 import { ALL_ROUTES } from "~/routes";
 import Env from "~/shared/env";
+import { useUserStore } from "~/store/user";
 
 export const useLogin = () => {
   const router = useRouter();
+  const { setUser } = useUserStore();
   const { showErrorToast, showSuccessToast } = useToastActions();
 
   const { mutate: loginMutation } = useMutation<
@@ -19,12 +22,14 @@ export const useLogin = () => {
     LoginPayload
   >({
     mutationFn: (payload) => login(payload),
-    onSuccess: ({ data }: LoginResult) => {
+    onSuccess: async ({ data }: LoginResult) => {
       setCookie(COOKIES_NAMES.ACCESS_TOKEN, data.accessToken, {
         secure: true,
         sameSite: "lax",
         domain: Env.appDomain,
       });
+      const { data: user } = await getMe();
+      setUser(user, data.accessToken);
       showSuccessToast("Successful login!");
       router.push(ALL_ROUTES.home);
     },
