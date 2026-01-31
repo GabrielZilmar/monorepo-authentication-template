@@ -22,6 +22,10 @@ export default class Env {
     return this.getEnvOrThrow('JWT_SECRET');
   }
 
+  static get frontendUrl(): string {
+    return this.getEnvOrDefault('FRONTEND_URL', 'http://localhost:3000');
+  }
+
   private static getEnvOrThrow(envName: string): string {
     const env = process.env[envName];
     if (!env) {
@@ -41,6 +45,36 @@ export default class Env {
 
   static get adminPassword(): string {
     return this.getEnvOrThrow('ADMIN_PASSWORD');
+  }
+
+  static get smtpHost(): string {
+    return this.getEnvOrThrow('SMTP_HOST');
+  }
+
+  static get smtpPort(): number {
+    const port = this.getEnvOrThrow('SMTP_PORT');
+    return Number(port);
+  }
+
+  static get smtpSecure(): boolean {
+    const secure = this.getEnvOrDefault('SMTP_SECURE', 'true');
+    return secure.toLowerCase() === 'true';
+  }
+
+  static get smtpUser(): string {
+    return this.getEnvOrThrow('SMTP_USER');
+  }
+
+  static get smtpPassword(): string {
+    return this.getEnvOrThrow('SMTP_PASSWORD');
+  }
+
+  static get mailSenderFromEmail(): string {
+    return this.getEnvOrThrow('MAILSENDER_FROM_EMAIL');
+  }
+
+  static get mailSenderFromName(): string {
+    return this.getEnvOrDefault('MAILSENDER_FROM_NAME', 'MyApp');
   }
 
   private static getEnvOrDefault(
