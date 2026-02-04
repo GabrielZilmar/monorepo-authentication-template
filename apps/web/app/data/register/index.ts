@@ -11,7 +11,7 @@ export type RegisterResult = AxiosResponse<
 >;
 
 export const register = async (
-  payload: RegisterUserDTO,
+  payload: RegisterPayload,
 ): Promise<RegisterResult> => {
   const response = await axiosInstance.post<AuthResponseDTO>("/auth/register", {
     ...payload,

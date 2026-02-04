@@ -121,7 +121,9 @@ const LoginForm: React.FC = () => {
             </Button>
 
             <div className="text-center text-sm">
-              <span className="text-default-500">Don't have an account? </span>
+              <span className="text-default-500">
+                Don&apos;t have an account?{" "}
+              </span>
               <Link
                 href={ALL_ROUTES.register}
                 size="sm"

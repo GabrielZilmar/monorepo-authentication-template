@@ -19,6 +19,7 @@ export async function authMiddleware({
   url,
 }: AuthMiddlewareParams): Promise<AuthMiddlewareResponse> {
   const { login: loginRoute, ...publicRoutes } = PUBLIC_ROUTES;
+  void loginRoute; // Mark as intentionally unused
   if (Object.values(publicRoutes).includes(url.pathname)) {
     return { isAuth: true };
   }
@@ -36,7 +37,7 @@ export async function authMiddleware({
         Authorization: `Bearer ${accessToken.value}`,
       },
     });
-  } catch (_) {
+  } catch {
     return { isAuth: false };
   }
 

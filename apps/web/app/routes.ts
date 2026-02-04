@@ -1,6 +1,7 @@
 type PublicRoute = {
   login: string;
   register: string;
+  verifyEmail: string;
 };
 
 type PrivateRoute = {
@@ -12,6 +13,7 @@ type AllRoutes = PublicRoute & PrivateRoute;
 export const PUBLIC_ROUTES: PublicRoute = {
   login: "/login",
   register: "/register",
+  verifyEmail: "/verify-email",
 };
 
 export const PRIVATE_ROUTES: PrivateRoute = {
