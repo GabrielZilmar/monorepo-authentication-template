@@ -39,6 +39,19 @@ export default class TokenRepository extends BaseRepository<Token> {
     });
   }
 
+  async findValidToken(userId: string, type: TokenType): Promise<Token | null> {
+    const token = await this.findOne({
+      where: { userId, type, used: false },
+      order: { createdAt: 'DESC' },
+    });
+
+    if (token?.expiresAt > new Date()) {
+      return token;
+    }
+
+    return null;
+  }
+
   async markAsUsed(tokenId: string): Promise<void> {
     await this.repository.update(tokenId, {
       used: true,

@@ -23,9 +23,7 @@ export default class CryptoUtils {
   }
 
   public static getTokenExpiry(hours: number = 24): Date {
-    const expiry = new Date();
-    expiry.setHours(expiry.getHours() + hours);
-    return expiry;
+    return new Date(Date.now() + hours * 60 * 60 * 1000);
   }
 
   public static isTokenExpired(expiry: Date | null): boolean {
