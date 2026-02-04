@@ -3,6 +3,6 @@
  */
 export const TOKEN_EXPIRATION = {
   EMAIL_VERIFICATION: 0.25, // 15 minutes
-  PASSWORD_RESET: 1, // 1 hour
+  PASSWORD_RESET: 0.17, // 10 minutes
   REFRESH_TOKEN: 168, // 7 days
 } as const;

@@ -118,7 +118,7 @@ Thank you for signing up! Please verify your email address by clicking the link 
 
 {{verificationUrl}}
 
-This link will expire in 24 hours.
+This link will expire in a couple of minutes.
 
 If you didn't create an account, please ignore this email.
 
@@ -230,7 +230,7 @@ We received a request to reset your password. Click the link below to reset it:
 
 {{resetUrl}}
 
-This link will expire in 1 hour.
+This link will expire in a couple of minutes.
 
 If you didn't request this, please ignore this email.
 

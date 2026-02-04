@@ -15,12 +15,16 @@ import {
   AuthResponseDTO,
   LoginResponseDTO,
   VerifyEmailParamsDTO,
+  ForgotPasswordDTO,
+  ResetPasswordDTO,
 } from '@repo/api';
 import { LocalAuthGuard } from '~/modules/auth/guards/local-auth.guard';
 import Login from '~/modules/auth/use-cases/login';
 import RegisterUser from '~/modules/auth/use-cases/register';
 import SendVerificationEmail from '~/modules/auth/use-cases/send-verification-email';
 import VerifyEmail from '~/modules/auth/use-cases/verify-email';
+import ForgotPassword from '~/modules/auth/use-cases/forgot-password';
+import ResetPassword from '~/modules/auth/use-cases/reset-password';
 import { RequestWithUser } from '~/types/request-with-user';
 
 @Controller('api/auth')
@@ -30,6 +34,8 @@ export class AuthController {
     private readonly loginUseCase: Login,
     private readonly sendVerificationEmail: SendVerificationEmail,
     private readonly verifyEmailUseCase: VerifyEmail,
+    private readonly forgotPasswordUseCase: ForgotPassword,
+    private readonly resetPasswordUseCase: ResetPassword,
   ) {}
 
   @Post('register')
@@ -60,5 +66,15 @@ export class AuthController {
   @Post('verify-email')
   async verifyEmail(@Query() { token }: VerifyEmailParamsDTO) {
     return this.verifyEmailUseCase.execute(token);
+  }
+
+  @Post('forgot-password')
+  async forgotPassword(@Body() forgotPasswordDto: ForgotPasswordDTO) {
+    await this.forgotPasswordUseCase.execute(forgotPasswordDto);
+  }
+
+  @Post('reset-password')
+  async resetPassword(@Body() resetPasswordDto: ResetPasswordDTO) {
+    await this.resetPasswordUseCase.execute(resetPasswordDto);
   }
 }
