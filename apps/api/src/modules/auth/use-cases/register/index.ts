@@ -1,8 +1,9 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AuthResponseDTO, RegisterUserDTO, UserMapper } from '@repo/api';
 import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 import { UseCase } from '~/shared/core/use-case';
+import SendVerificationEmail from '~/modules/auth/use-cases/send-verification-email';
 
 type RegisterUserParams = RegisterUserDTO;
 type RegisterUserResult = AuthResponseDTO;
@@ -12,8 +13,10 @@ export default class RegisterUser
   implements UseCase<RegisterUserParams, RegisterUserResult>
 {
   constructor(
+    private readonly logger: Logger,
     private readonly jwtService: JwtService,
     private readonly userRepository: UserRepository,
+    private readonly sendVerificationEmail: SendVerificationEmail,
   ) {}
 
   async execute({
@@ -30,6 +33,10 @@ export default class RegisterUser
 
     const payload = { sub: user.id, email: user.email };
     const accessToken = await this.jwtService.signAsync(payload);
+
+    this.sendVerificationEmail.execute(user.id).catch((error) => {
+      this.logger.error('Failed to send verification email:', error);
+    });
 
     return {
       user: userDTO,

@@ -31,6 +31,9 @@ export class User {
   @Column({ type: 'varchar', length: 255 })
   username: string;
 
+  @Column({ type: 'boolean', default: false })
+  emailVerified: boolean;
+
   @CreateDateColumn()
   createdAt: Date;
 

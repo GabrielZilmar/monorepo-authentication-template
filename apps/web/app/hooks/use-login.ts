@@ -11,6 +11,9 @@ import { ALL_ROUTES } from "~/routes";
 import Env from "~/shared/env";
 import { useUserStore } from "~/store/user";
 
+const ONE_HOUR_MAX_AGE = 60 * 60;
+const ONE_WEEK_MAX_AGE = 60 * 60 * 24 * 7;
+
 export const useLogin = () => {
   const router = useRouter();
   const { setUser } = useUserStore();
@@ -27,7 +30,16 @@ export const useLogin = () => {
         secure: true,
         sameSite: "lax",
         domain: Env.appDomain,
+        maxAge: ONE_HOUR_MAX_AGE,
       });
+
+      setCookie(COOKIES_NAMES.REFRESH_TOKEN, data.refreshToken, {
+        secure: true,
+        sameSite: "lax",
+        domain: Env.appDomain,
+        maxAge: ONE_WEEK_MAX_AGE,
+      });
+
       const { data: user } = await getMe();
       setUser(user, data.accessToken);
       showSuccessToast("Successful login!");

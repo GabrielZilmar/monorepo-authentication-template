@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter, usePathname } from "next/navigation";
+import { usePathname } from "next/navigation";
 import {
   Navbar as NavbarUI,
   NavbarBrand,
@@ -18,9 +18,7 @@ import {
   Avatar,
 } from "@repo/ui";
 import { useUserStore } from "~/store/user";
-import { ALL_ROUTES } from "~/routes";
-import { deleteCookie } from "cookies-next";
-import { COOKIES_NAMES } from "~/constants/cookies";
+import { useLogout } from "~/hooks";
 
 type MenuItem = {
   name: string;
@@ -28,8 +26,8 @@ type MenuItem = {
 };
 
 export default function Navbar() {
-  const { user, clearUser } = useUserStore();
-  const router = useRouter();
+  const { user } = useUserStore();
+  const { logoutMutation, isPending } = useLogout();
   const pathname = usePathname();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -39,9 +37,7 @@ export default function Navbar() {
   ];
 
   const handleLogout = () => {
-    clearUser();
-    deleteCookie(COOKIES_NAMES.ACCESS_TOKEN);
-    router.push(ALL_ROUTES.login);
+    logoutMutation();
   };
 
   return (
@@ -104,7 +100,11 @@ export default function Navbar() {
             <DropdownMenu
               aria-label="Profile Actions"
               variant="flat"
-              disabledKeys={["settings", "help_and_feedback"]}
+              disabledKeys={
+                isPending
+                  ? ["settings", "help_and_feedback", "logout"]
+                  : ["settings", "help_and_feedback"]
+              }
             >
               <DropdownItem key="profile" className="h-14 gap-2">
                 <p className="font-semibold">Signed in as</p>
@@ -120,7 +120,7 @@ export default function Navbar() {
                 Help & Feedback
               </DropdownItem>
               <DropdownItem key="logout" color="danger" onPress={handleLogout}>
-                Log Out
+                {isPending ? "Logging out..." : "Log Out"}
               </DropdownItem>
             </DropdownMenu>
           </Dropdown>

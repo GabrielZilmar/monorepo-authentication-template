@@ -5,6 +5,7 @@ export class UserEntity {
   isAdmin: boolean;
   password: string;
   passwordSalt: string;
+  emailVerified: boolean;
   createdAt: Date;
   updatedAt: Date;
 }

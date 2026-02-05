@@ -2,6 +2,7 @@
 
 import { Card, CardBody, CardHeader } from "@repo/ui";
 import { useUserStore } from "~/store/user";
+import { SendVerificationEmailButton } from "~/components/send-verification-email";
 
 export default function DashboardPage() {
   const user = useUserStore((state) => state.user);
@@ -32,7 +33,7 @@ export default function DashboardPage() {
           Welcome back{`${user?.username ? `, ${user.username}` : ""}`}
         </h1>
         <p className="text-default-300">
-          Here's what's happening with your app today.
+          Here&apos;s what&apos;s happening with your app today.
         </p>
         {user?.isAdmin && (
           <div className="mt-2 inline-block px-3 py-1 bg-primary/10 text-primary text-sm font-semibold rounded-full">
@@ -143,23 +144,45 @@ export default function DashboardPage() {
             <h2 className="text-xl font-bold">Quick Actions</h2>
           </CardHeader>
           <CardBody className="px-6 pb-6">
-            <div className="grid grid-cols-2 gap-4">
-              <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
-                <div className="text-3xl mb-2">👥</div>
-                <p className="text-sm font-semibold">Add User</p>
-              </button>
-              <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
-                <div className="text-3xl mb-2">📊</div>
-                <p className="text-sm font-semibold">View Reports</p>
-              </button>
-              <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
-                <div className="text-3xl mb-2">⚙️</div>
-                <p className="text-sm font-semibold">Settings</p>
-              </button>
-              <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
-                <div className="text-3xl mb-2">📧</div>
-                <p className="text-sm font-semibold">Messages</p>
-              </button>
+            <div className="space-y-4">
+              <div className="p-4 rounded-lg bg-gradient-to-r from-blue-50 to-indigo-50 dark:from-blue-900/20 dark:to-indigo-900/20">
+                <div className="flex items-center justify-between mb-3">
+                  <div className="flex items-center gap-2">
+                    <div className="w-3 h-3 rounded-full bg-green-500"></div>
+                    <span className="text-sm font-semibold">
+                      Email Verification
+                    </span>
+                  </div>
+                  <span className="text-xs text-default-500">
+                    {user?.email ? user.email : "No email"}
+                  </span>
+                </div>
+                <p className="text-xs text-default-600 mb-3">
+                  {user?.emailVerified
+                    ? "Your email has been verified successfully!"
+                    : "Verify your email to access all features."}
+                </p>
+                {!user?.emailVerified && <SendVerificationEmailButton />}
+              </div>
+
+              <div className="grid grid-cols-2 gap-4">
+                <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
+                  <div className="text-3xl mb-2">👥</div>
+                  <p className="text-sm font-semibold">Add User</p>
+                </button>
+                <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
+                  <div className="text-3xl mb-2">📊</div>
+                  <p className="text-sm font-semibold">View Reports</p>
+                </button>
+                <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
+                  <div className="text-3xl mb-2">⚙️</div>
+                  <p className="text-sm font-semibold">Settings</p>
+                </button>
+                <button className="p-6 rounded-lg border-2 border-dashed border-default-300 hover:border-primary hover:bg-primary/5 transition-all duration-300 text-center">
+                  <div className="text-3xl mb-2">📧</div>
+                  <p className="text-sm font-semibold">Messages</p>
+                </button>
+              </div>
             </div>
           </CardBody>
         </Card>
