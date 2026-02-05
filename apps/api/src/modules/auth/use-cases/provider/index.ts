@@ -8,6 +8,8 @@ import GenerateEmailVerificationToken from '~/modules/auth/use-cases/generate-em
 import ForgotPassword from '~/modules/auth/use-cases/forgot-password';
 import ResetPassword from '~/modules/auth/use-cases/reset-password';
 import GenerateForgotPasswordToken from '~/modules/auth/use-cases/generate-forgot-password-token';
+import RefreshToken from '~/modules/auth/use-cases/refresh-token';
+import Logout from '~/modules/auth/use-cases/logout';
 
 const authUseCasesProviders: Provider[] = [
   RegisterUser,
@@ -19,6 +21,8 @@ const authUseCasesProviders: Provider[] = [
   VerifyEmail,
   ForgotPassword,
   ResetPassword,
+  RefreshToken,
+  Logout,
 ];
 
 export default authUseCasesProviders;

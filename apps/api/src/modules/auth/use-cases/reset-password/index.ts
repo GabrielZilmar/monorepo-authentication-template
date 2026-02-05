@@ -6,6 +6,7 @@ import {
 import { DataSource } from 'typeorm';
 import { User } from '~/modules/users/entities/user.entity';
 import TokenRepository from '~/services/database/typeorm/repositories/token.repository';
+import SessionRepository from '~/services/database/typeorm/repositories/session.repository';
 import { TokenType } from '~/modules/tokens/entities/token.entity';
 import CryptoUtils from '~/shared/crypto.util';
 import PasswordUtils from '~/shared/password.util';
@@ -27,6 +28,7 @@ export default class ResetPassword
 
     return this.dataSource.transaction(async (manager) => {
       const tokenRepository = new TokenRepository(manager);
+      const sessionRepository = new SessionRepository(manager);
       const userRepository = manager.getRepository(User);
 
       const tokenEntity = await tokenRepository.findByHashedToken(
@@ -62,6 +64,8 @@ export default class ResetPassword
       await userRepository.save(user);
 
       await tokenRepository.markAsUsed(tokenEntity.id);
+
+      await sessionRepository.deactivateAllUserSessions(user.id);
     });
   }
 }
