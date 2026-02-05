@@ -106,7 +106,7 @@ const LoginForm: React.FC = () => {
             />
 
             <div className="flex justify-end">
-              <Link href="#" size="sm" className="text-primary">
+              <Link href={ALL_ROUTES.forgotPassword} size="sm" className="text-primary">
                 Forgot password?
               </Link>
             </div>
