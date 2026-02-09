@@ -4,6 +4,8 @@ import { SeederOptions } from 'typeorm-extension';
 import { SnakeNamingStrategy } from 'typeorm-naming-strategies';
 import databaseConfig from '~/services/database/typeorm/config/database';
 
+const isTestEnvironment = process.env.NODE_ENV === 'test';
+
 export const dataSourceOptions = {
   type: 'postgres',
   port: databaseConfig.port,
@@ -13,7 +15,8 @@ export const dataSourceOptions = {
   database: databaseConfig.database,
   ssl: databaseConfig.ssl,
   extra: databaseConfig.extra,
-  synchronize: false,
+  synchronize: isTestEnvironment,
+  dropSchema: isTestEnvironment,
   logging: false,
   namingStrategy: new SnakeNamingStrategy(),
   entities: [join(__dirname, '../../../../modules/**/*.entity.{ts,js}')],

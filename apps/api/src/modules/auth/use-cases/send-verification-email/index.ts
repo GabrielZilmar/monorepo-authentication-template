@@ -1,18 +1,15 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { User } from '~/modules/users/entities/user.entity';
 import Env from '~/shared/env';
 import SendEmailFromTemplateUseCase from '~/modules/email/use-cases/send-email-from-template';
 import { EmailTemplateType } from '~/modules/email/entities/email-template.entity';
 import { UseCase } from '~/shared/core/use-case';
 import GenerateEmailVerificationToken from '~/modules/auth/use-cases/generate-email-verification-token';
+import UserRepository from '~/services/database/typeorm/repositories/user.repository';
 
 @Injectable()
 export default class SendVerificationEmail implements UseCase<string, void> {
   constructor(
-    @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly userRepository: UserRepository,
     private readonly generateTokenUseCase: GenerateEmailVerificationToken,
     private readonly sendEmailFromTemplate: SendEmailFromTemplateUseCase,
   ) {}

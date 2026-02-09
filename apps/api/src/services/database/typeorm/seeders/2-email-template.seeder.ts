@@ -1,15 +1,12 @@
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import {
-  EmailTemplate,
-  EmailTemplateType,
-} from '~/modules/email/entities/email-template.entity';
+import { EmailTemplateType } from '~/modules/email/entities/email-template.entity';
 
 export default class EmailTemplateSeeder implements Seeder {
   track = true;
 
   public async run(dataSource: DataSource): Promise<void> {
-    const repository = dataSource.getRepository(EmailTemplate);
+    const repository = dataSource.getRepository('EmailTemplate');
 
     const templates = [
       {

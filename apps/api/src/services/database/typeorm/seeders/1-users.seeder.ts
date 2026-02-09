@@ -1,6 +1,5 @@
 import { DataSource } from 'typeorm';
 import { Seeder } from 'typeorm-extension';
-import { User } from '~/modules/users/entities/user.entity';
 import Env from '~/shared/env';
 
 export default class UsersSeeder implements Seeder {
@@ -11,7 +10,7 @@ export default class UsersSeeder implements Seeder {
 
   public async run(dataSource: DataSource): Promise<void> {
     await dataSource.manager.transaction(async (manager) => {
-      const userRepository = manager.getRepository(User);
+      const userRepository = manager.getRepository('User');
 
       const adminUser = userRepository.create({
         email: Env.adminEmail,

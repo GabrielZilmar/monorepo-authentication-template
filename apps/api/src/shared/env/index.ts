@@ -1,7 +1,9 @@
 import { ConfigModule } from '@nestjs/config';
 
+const envFilePath = process.env.NODE_ENV === 'test' ? '.env.test' : '.env';
+
 void ConfigModule.forRoot({
-  envFilePath: '.env',
+  envFilePath,
 });
 
 export enum Environment {
