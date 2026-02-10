@@ -18,16 +18,17 @@ export default class ListUsers
   constructor(private readonly userRepository: UserRepository) {}
 
   async execute({
-    skip,
-    take,
+    page = 1,
+    perPage = 10,
     ...query
   }: ListUsersParams): Promise<ListUsersResult> {
+    const skip = Math.max(page - 1, 0) * perPage;
     const { items, count } = await this.userRepository.find({
       where: {
         ...this.userRepository.genericMountSearch(query),
       },
       skip,
-      take,
+      take: perPage,
     });
     return {
       items: items.map(UserMapper.toDto),

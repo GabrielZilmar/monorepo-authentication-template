@@ -25,8 +25,8 @@ describe('ListUsers Use Case', () => {
     userRepository.find.mockResolvedValue({ items: [user], count: 1 });
 
     const result = await listUsers.execute({
-      skip: 0,
-      take: 10,
+      page: 2,
+      perPage: 10,
       email: user.email,
       username: user.username,
     });
@@ -37,7 +37,7 @@ describe('ListUsers Use Case', () => {
     });
     expect(userRepository.find).toHaveBeenCalledWith({
       where: { email: user.email },
-      skip: 0,
+      skip: 10,
       take: 10,
     });
     expect(result).toEqual({
