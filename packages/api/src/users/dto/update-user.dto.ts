@@ -1,10 +1,4 @@
-import {
-  IsEmail,
-  IsNotEmpty,
-  IsOptional,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString, IsUUID } from 'class-validator';
 
 export class UpdateUserParamsDTO {
   @IsString()
@@ -13,10 +7,6 @@ export class UpdateUserParamsDTO {
 }
 
 export class UpdateUserBodyDTO {
-  @IsOptional()
-  @IsEmail()
-  email?: string;
-
   @IsOptional()
   @IsString()
   @IsNotEmpty()

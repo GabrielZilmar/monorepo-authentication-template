@@ -16,6 +16,7 @@ import {
   UpdateUserBodyDTO,
   UserDTO,
   DeleteUserParamsDTO,
+  DeleteUserResponseDTO,
   ToggleAdminParamsDTO,
   ListUsersQueryDTO,
 } from '@repo/api';
@@ -61,11 +62,16 @@ export class UsersController {
   }
 
   @Delete(':id')
-  remove(
+  async remove(
     @Req() req: RequestWithUser,
     @Param() { id }: DeleteUserParamsDTO,
-  ): Promise<boolean> {
-    return this.deleteUser.execute({ id, currentUser: req.user });
+  ): Promise<DeleteUserResponseDTO> {
+    const success = await this.deleteUser.execute({
+      id,
+      currentUser: req.user,
+    });
+
+    return { success };
   }
 
   @Patch(':id/toggle-admin')

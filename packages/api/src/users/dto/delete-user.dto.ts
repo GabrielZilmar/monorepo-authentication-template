@@ -5,3 +5,7 @@ export class DeleteUserParamsDTO {
   @IsUUID()
   id: string;
 }
+
+export class DeleteUserResponseDTO {
+  success: boolean;
+}
