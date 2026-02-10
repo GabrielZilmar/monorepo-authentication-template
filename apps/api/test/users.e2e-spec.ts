@@ -261,7 +261,7 @@ describe('UsersController (e2e)', () => {
       .set('Authorization', `Bearer ${adminAccessToken}`)
       .expect(200);
 
-    expect(response.text).toBe('true');
+    expect(response.body).toEqual({ success: true });
   });
 
   it('DELETE /api/users/:id returns 403 when deleting another user', async () => {
