@@ -10,8 +10,10 @@ import { AppDataSource } from '~/services/database/typeorm/config/data-source';
     {
       provide: DataSource,
       useFactory: async () => {
-        await AppDataSource.initialize();
-        await runSeeders(AppDataSource);
+        if (!AppDataSource.isInitialized) {
+          await AppDataSource.initialize();
+          await runSeeders(AppDataSource);
+        }
 
         return AppDataSource;
       },
