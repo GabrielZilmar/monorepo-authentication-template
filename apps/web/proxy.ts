@@ -3,7 +3,7 @@ import { authMiddleware } from "~/middlewares";
 import { ALL_ROUTES } from "~/routes";
 import { COOKIES_NAMES } from "~/constants/cookies";
 
-export async function middleware(req: NextRequest, event: NextFetchEvent) {
+export async function proxy(req: NextRequest, event: NextFetchEvent) {
   const url = req.nextUrl.clone();
   const { isAuth, newAccessToken } = await authMiddleware({ url });
 
