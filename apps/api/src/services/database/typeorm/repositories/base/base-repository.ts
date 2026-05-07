@@ -35,11 +35,11 @@ export abstract class BaseRepository<T extends { id: string }>
     uniqueFields = [],
     entityManager,
   }: ConstructorParams<T>) {
+    this.uniqueFields = uniqueFields;
     if (entityManager?.connection?.isInitialized) {
       this.repository = entityManager.getRepository(entity);
       return;
     }
-    this.uniqueFields = uniqueFields;
     this.repository = AppDataSource.getRepository(entity);
   }
 
